@@ -4,80 +4,229 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News Page</title>
-    <link rel="stylesheet" href="style.css">
+    <style>
+        * {
+            padding: 0;
+            margin: 0;
+            box-sizing: border-box;
+        }
+
+        .page-container {
+            background: #ddd;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+
+        .card-container {
+            min-width: 400px;
+            max-height: 650px;
+            max-width: calc(650px);
+            display: flex;
+            margin-top: 15px;
+            padding: 10px;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            flex-wrap: nowrap;
+            align-items: center;
+            position: relative;
+            overflow-y: scroll;
+        }
+
+        .card {
+            min-width: 400px;
+            padding: 10px;
+            background: #fff;
+            position: relative;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            max-width: 100%;
+            min-height: 220px;
+            width: 100%;
+        }
+
+        .card.active {
+            height: 100%;
+        }
+
+        .card-separate {
+            flex-basis: 50%;
+            position: relative;
+            height: 200px;
+        }
+
+        .card-image {
+            width: 310px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .card-image img {
+            max-height: 200px;
+            max-width: 100%;
+        }
+
+        .card-title {
+            font-size: 24px;
+            padding: 10px;
+            color: #3a3a3a;
+            font-family: sans-serif;
+            font-weight: 600;
+            text-transform: capitalize;
+        }
+
+        .card-description {
+            padding: 10px;
+            max-width: 300px;
+        }
+
+        .read-more {
+            padding: 10px;
+            border-radius: 20px;
+            background: #3a3a3a3c;
+            position: absolute;
+            right: 0px;
+            bottom: 0px;
+            color: #000;
+            cursor: pointer;
+        }
+
+        /* Add the following styles inside your <style> block */
+
+.card-container::-webkit-scrollbar {
+    width:  2px;
+    height: 2px;
+}
+
+.card-container::-webkit-scrollbar-track {
+    background-color: #ddd;
+}
+
+.card-container::-webkit-scrollbar-thumb {
+    background-color: #3a3a3a;
+    border-radius: 10px;
+}
+
+.card-container::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+
+/* Add the following styles inside your <style> block */
+
+    @keyframes autoScroll {
+    0% {
+        transform: translateY(0);
+    }
+    100% {
+        transform: translateY(calc(-100vh + 220px)); /* Adjust the height of each card */
+    }
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.card {
+    min-width: 400px;
+    padding: 10px;
+    background: #fff;
+    position: relative;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    max-width: 100%;
+    min-height: 220px;
+    width: 100%;
+
+    animation: autoScroll 1s linear infinite;
+}
+
+
+    </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
+
 <body>
     <div class="page-container">
-        <div class="card-container">
-            <div class="card">
-                <div class="card-seperate card-image">
-                    <img src="https://purepng.com/public/uploads/large/purepng.com-yellow-audi-caraudicars-961524670899johme.png" alt="car-images">
-                </div>
-                <div class="card-seperate card-details">
-                    <div class="card-title">Title</div>
-                    <div class="card-description">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                        Adipisci alias mollitia commodi voluptatum. 
-                        Ratione, aliquid fugit! Expedita quo possimus veniam alias, 
-                        similique id labore a error. 
-                        Ratione nostrum rerum facere. <div class="read-more">Read More</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-seperate card-image">
-                    <img 
-                    src="
-                    https://purepng.com/public/uploads/large/purepng.com-ford-mustang-red-carcarcarsvehiclevehiclestransport-5615211266939gqkz.png                    " alt="car-images">
-                </div>
-                <div class="card-seperate card-details">
-                    <div class="card-title">Title</div>
-                    <div class="card-description">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                        Adipisci alias mollitia commodi voluptatum. 
-                        Ratione, aliquid fugit! Expedita quo possimus veniam alias, 
-                        similique id labore a error. 
-                        Ratione nostrum rerum facere. <div class="read-more">Read More</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-seperate card-image">
-                    <img 
-                    src="
-                    https://th.bing.com/th/id/R.8b01377204f7e5e60f3928fa9c6d8d8d?rik=veNTNapnhdPf5A&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fpng-hd-images-of-cars-volkswagen-png-hd-1500.png&ehk=bzMQ1ueAXMsJzhilqNehN77R9uwSPUm8hoyg%2bCU3wYo%3d&risl=&pid=ImgRaw&r=0" 
-                    alt="car-images">
-                </div>
-                <div class="card-seperate card-details">
-                    <div class="card-title">Title</div>
-                    <div class="card-description">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                        Adipisci alias mollitia commodi voluptatum. 
-                        Ratione, aliquid fugit! Expedita quo possimus veniam alias, 
-                        similique id labore a error. 
-                        Ratione nostrum rerum facere. <div class="read-more">Read More</div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-seperate card-image">
-                    <img 
-                    src="
-                    https://th.bing.com/th/id/R.ceee8ccf05c1e458dac5fdd9dd0d71e7?rik=lXmrJwPS9dKcgg&riu=http%3a%2f%2fpluspng.com%2fimg-png%2fpng-hd-of-car-audi-png-hd-png-image-2505.png&ehk=TYMNLgUAstCSxLa%2fHN50J51SKq%2f8AjyeynAFcUfEegg%3d&risl=1&pid=ImgRaw&r=0" 
-                    alt="car-images">
-                </div>
-                <div class="card-seperate card-details">
-                    <div class="card-title">Title</div>
-                    <div class="card-description">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. 
-                        Adipisci alias mollitia commodi voluptatum. 
-                        Ratione, aliquid fugit! Expedita quo possimus veniam alias, 
-                        similique id labore a error. 
-                        Ratione nostrum rerum facere. <div class="read-more">Read More</div>
-                    </div>
-                </div>
-            </div>
+        <div class="card-container" id="cardContainer">
+            <!-- Initial cards go here -->
         </div>
     </div>
+
+    <script>
+        const cardContainer = document.getElementById("cardContainer");
+        let isScrolling = false;
+
+        cardContainer.addEventListener("scroll", function () {
+            if (!isScrolling) {
+                // Check if the user has reached the bottom of the container
+                if (
+                    cardContainer.scrollTop + cardContainer.clientHeight >=
+                    cardContainer.scrollHeight
+                ) {
+                    // Fetch more content or append existing content using Ajax
+                    $.ajax({
+                        url: 'fetch.php',
+                        type: 'GET',
+                        success: function (response) {
+                            $('#cardContainer').append(response);
+                        }
+                    });
+
+                    // Reset the flag after a short delay to avoid continuous scrolling
+                    isScrolling = true;
+                    setTimeout(() => {
+                        isScrolling = false;
+                    }, 200);
+                }
+            }
+        });
+
+        // Pause infinite scroll on hover
+        cardContainer.addEventListener("mouseenter", function () {
+            isScrolling = true;
+        });
+
+        // Resume infinite scroll on mouse leave
+        cardContainer.addEventListener("mouseleave", function () {
+            isScrolling = false;
+        });
+    </script>
+
+    <script>
+        // Handle CRUD operations using jQuery and Ajax
+        $(document).ready(function () {
+            // Load images on page load
+            loadImages();
+
+            // Function to load images
+            function loadImages() {
+                $.ajax({
+                    url: 'fetch.php',
+                    type: 'GET',
+                    success: function (response) {
+                        $('#cardContainer').html(response);
+                    }
+                });
+            }
+
+            setInterval(() => {
+                loadImages();
+            }, 1000);
+        });
+    </script>
+
 </body>
+
 </html>

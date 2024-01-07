@@ -4,8 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Image Gallery</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <title>News Page</title>
     <style>
         * {
             padding: 0;
@@ -25,7 +24,6 @@
             min-width: 400px;
             max-height: 650px;
             max-width: calc(650px);
-            /* background: #fff; */
             display: flex;
             margin-top: 15px;
             padding: 10px;
@@ -40,7 +38,7 @@
         }
 
         .card {
-            min-width: 350px;
+            min-width: 400px;
             padding: 10px;
             background: #fff;
             position: relative;
@@ -50,9 +48,14 @@
             overflow: hidden;
             max-width: 100%;
             min-height: 220px;
+            width: 100%;
         }
 
-        .card-seperate {
+        .card.active {
+            height: 100%;
+        }
+
+        .card-separate {
             flex-basis: 50%;
             position: relative;
             height: 200px;
@@ -76,6 +79,7 @@
             color: #3a3a3a;
             font-family: sans-serif;
             font-weight: 600;
+            text-transform: capitalize;
         }
 
         .card-description {
@@ -93,14 +97,64 @@
             color: #000;
             cursor: pointer;
         }
+
+        /* Add the following styles inside your <style> block */
+
+        .card-container::-webkit-scrollbar {
+            width: 2px;
+            height: 2px;
+        }
+
+        .card-container::-webkit-scrollbar-track {
+            background-color: #ddd;
+        }
+
+        .card-container::-webkit-scrollbar-thumb {
+            background-color: #3a3a3a;
+            border-radius: 10px;
+        }
+
+        .card-container::-webkit-scrollbar-thumb:hover {
+            background-color: #555;
+        }
+
+
+        .card-container {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .card {
+            min-width: 400px;
+            padding: 10px;
+            background: #fff;
+            position: relative;
+            border-radius: 5px;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+            max-width: 100%;
+            min-height: 220px;
+            width: 100%;
+        }
+
+        .card-container {
+            max-height: 650px;
+            /* Adjust the maximum height as needed */
+            overflow-y: auto;
+            /* Set to 'scroll' if you want a scrollbar always visible */
+        }
     </style>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </head>
 
 <body>
-
     <div class="page-container">
         <div class="card-container" id="cardContainer">
-
+            <!-- Initial cards go here -->
         </div>
     </div>
 
@@ -115,12 +169,14 @@
                     cardContainer.scrollTop + cardContainer.clientHeight >=
                     cardContainer.scrollHeight
                 ) {
-                    // Fetch more content or append existing content
-                    // In this example, I'll just clone the existing cards and append them
-                    const cards = document.querySelectorAll(".card");
-                    cards.forEach((card) => {
-                        const newCard = card.cloneNode(true);
-                        cardContainer.appendChild(newCard);
+                    // Fetch more content or append existing content using Ajax
+                    $.ajax({
+                        url: 'fetch.php',
+                        type: 'GET',
+                        success: function(response) {
+                            $('#cardContainer').append(response);
+                            startAutoScroll(); // Call startAutoScroll after cards are loaded
+                        }
                     });
 
                     // Reset the flag after a short delay to avoid continuous scrolling
@@ -141,70 +197,24 @@
         cardContainer.addEventListener("mouseleave", function() {
             isScrolling = false;
         });
-    </script>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <script>
-        // Handle CRUD operations using jQuery and Ajax
-        $(document).ready(function() {
-            // Load images on page load
-            loadImages();
-
-            // Function to load images
-            function loadImages() {
-                $.ajax({
-                    url: 'fetch.php',
-                    type: 'GET',
-                    success: function(response) {
-                        $('#cardContainer').html(response);
-                    }
-                });
-            }
-
-            setInterval(() => {
-                loadImages();
-            }, 1000);
-        });
-    </script>
-
-    <script>
-        const container = document.querySelector('#cardContainer');
-        let scrollAmount = 0;
-
-        function autoScroll() {
-            if (scrollAmount >= container.scrollHeight - container.clientHeight) {
-                scrollAmount = 0; // Reset scroll to the top
-            }
-            container.scrollTo(0, scrollAmount);
-            scrollAmount += 1; // Increment the scroll amount
-        }
-
-        let scrollInterval = setInterval(autoScroll, 25); // Adjust speed as necessary
-
-        // Stop scrolling on hover
-        container.addEventListener('mouseover', () => {
-            clearInterval(scrollInterval);
-        });
-
-        container.addEventListener('mouseout', () => {
-            scrollInterval = setInterval(autoScroll, 25);
-        });
-
-        // Expand the description box on clicking "Read More"
-        document.querySelectorAll('.read-more').forEach(button => {
-            button.addEventListener('click', () => {
-                const description = button.parentElement;
-                if (description.style.height === '100px') {
-                    description.style.height = 'auto';
-                    button.textContent = 'Read Less';
-                } else {
-                    description.style.height = '100px';
-                    button.textContent = 'Read More';
+        // Function to load images
+        function loadImages() {
+            $.ajax({
+                url: 'fetch.php',
+                type: 'GET',
+                success: function(response) {
+                    $('#cardContainer').html(response);
+                    startAutoScroll(); // Call startAutoScroll after cards are loaded
                 }
             });
-        });
+        }
+
+        // Load images on page load
+        loadImages();
+
+        // Set interval to continuously load images
+        setInterval(loadImages, 1000);
     </script>
 </body>
 

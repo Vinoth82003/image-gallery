@@ -3,8 +3,20 @@
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
+// Database connection
+$host = 'localhost';
+$user = 'root';
+$pass = '';
+$db   = 'mydb';
 
-include "conn.php";
+$conn = new mysqli($host, $user, $pass, $db);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$tableName = "mytable";
 
 // Create $tableName table if not exists
 $sql = "CREATE TABLE IF NOT EXISTS $tableName (
